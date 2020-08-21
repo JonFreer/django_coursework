@@ -1,22 +1,101 @@
 {% load static %}
 <html>
-    <head>
-        <title>Django blog</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+<head>
+    <title>CV</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/cv.css' %}">
+</head>
+
+<body>
+    <div class="page-header">
+        <h1><a href="/cv">Jonathan Freer : CV</a></h1>
+    </div>
+
+    <div class ="main-container"> 
+
+    <div class="content " >
+
+        <h2>About</h2>
+        <div class="module-grade">Name</div> 
+        <div class="module-title">Jonathan Freer</div>
+        <div class="module-grade">Email</div> 
+        <div class="module-title">redacted@redacted.com</div>
+        <div class="module-grade">Phone</div> 
+        <div class="module-title">077444444</div>
+
    
-    </head>
-    <body>
-        <div class="page-header">
-            <h1><a href="/">Django Blog</a></h1>
-        </div>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                        Wooooo
+
+        <h2>Education</h2>
+        <div class="module-grade">A Levels</div> 
+        <div class="module-title">A Computer Science, A Physics, A Maths</div>
+        <div class="module-grade">GCSE</div> 
+        <div class="module-title">6 A*, 4 A</div>
+
+
+    </div>
+
+    <div class="content " >
+
+                <h2>University Modules</h2>
+
+                <div class="year">Year 1</div>
+                <div class="course-holder">
+                {% for course in year1 %}
+                    <div class="module-title">{{ course.title }} </div> <div class="module-grade">{{course.grade}}</div>
+                {% endfor %}
                 </div>
-            </div>
-        </div>
-    </body>
+
+                <div class="year">Year 2</div>
+                <div class="course-holder">
+                {% for course in year2 %}
+                    <div class="module-title">{{ course.title }} </div> <div class="module-grade">{{course.grade}}</div>
+                {% endfor %}
+                </div>
+
+                <div class="year">Year 3</div>
+                <div class="course-holder">
+                {% for course in year3 %}
+                    <div class="module-title">{{ course.title }} </div> <div class="module-grade">{{course.grade}}</div>
+                {% endfor %}
+                </div>
+
+                <div class="year">Year 4</div>
+                <div class="course-holder">
+                {% for course in year4 %}
+                    <div class="module-title">{{ course.title }} </div> <div class="module-grade">{{course.grade}}</div>
+                {% endfor %}
+                </div>
+
+    </div>
+
+    <div class="content " >
+
+        <h2>Skills</h2>
+        <!-- <div class="course-holder"> -->
+            {% for skill in skills %}
+                <div class="module-title">{{ skill.title }} </div> 
+                <div class="module-grade">{{skill.description}}</div>
+                <div class="module-experience">{{skill.experience}}</div>
+            {% endfor %}
+            <!-- </div> -->
+
+    </div>
+
+    <div class="content " >
+
+        <h2>Languages</h2>
+        <!-- <div class="course-holder"> -->
+            {% for skill in languages %}
+                <div class="module-title">{{ skill.title }} </div> 
+                <div class="module-experience">{{skill.experience}}</div>
+            {% endfor %}
+            <!-- </div> -->
+
+    </div>
+</div>
+</body>
+
 </html>
