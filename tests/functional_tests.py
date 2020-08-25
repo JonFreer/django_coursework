@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import unittest
+import random
+import string
 
 class NewVisitorTest(unittest.TestCase):
 
@@ -13,41 +15,57 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         
-        # Load up the CV page
-        self.browser.get('http://127.0.0.1:8000/cv')
+        # Load up the Admin page
+        self.browser.get('http://127.0.0.1:8000/admin')
 
-        # The page title is CV and the hear is CV
-        self.assertIn('CV', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').text  
-        self.assertIn('CV', header_text)
+        # The user types their username into the username input
+        username_input = self.browser.find_element_by_id('id_username')  
+        username_input.send_keys('test')  
 
-        # She is invited to enter a to-do item straight away
-        inputbox = self.browser.find_element_by_id('id_new_item')  
-        self.assertEqual(
-            inputbox.get_attribute('placeholder'),
-            'Enter a to-do item'
-        )
-
-        # She types "Buy peacock feathers" into a text box (Edith's hobby
-        # is tying fly-fishing lures)
-        inputbox.send_keys('Buy peacock feathers')  
-
-        # When she hits enter, the page updates, and now the page lists
-        # "1: Buy peacock feathers" as an item in a to-do list table
-        inputbox.send_keys(Keys.ENTER)  
+        # The user types in their password into the password and presses enter to log in
+        password_input = self.browser.find_element_by_id('id_password')  
+        password_input.send_keys('temppassword123')  
+        password_input.send_keys(Keys.ENTER)  
         time.sleep(1)  
 
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')  
-        self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows)
-        )
+        # Once logged in the user goes to the add course page
+        self.browser.get("http://127.0.0.1:8000/admin/cv/course/add/")
 
-        # There is still a text box inviting her to add another item. She
-        # enters "Use peacock feathers to make a fly" (Edith is very
-        # methodical)
-        self.fail('Finish the test!')
+        # The user enters a title
+        title_input = self.browser.find_element_by_id('id_title')  
+        title = get_random_string(8)
+        title_input.send_keys(title)
 
+        # And a grade
+        grade_input = self.browser.find_element_by_id('id_grade')
+        grade_input.send_keys("100")
+
+        # And selects year 1
+        year_select = self.browser.find_element_by_id('id_year')
+        all_options = year_select.find_elements_by_tag_name("option")
+        for option in all_options:
+            if(option.get_attribute("value") == "year1"):
+                option.click()
      
+        # The user presses enter to save the course
+        grade_input.send_keys(Keys.ENTER)  
+        time.sleep(1)  
+
+        # The user goes to the CV page to check if the new data is present
+        self.browser.get('http://127.0.0.1:8000/cv')
+
+        # The user looks in the Year1 section of university modules
+
+        year1_div = self.browser.find_element_by_id("year1")
+        
+        # The user checks if the course they added is there
+        self.assertIn(title, year1_div.text)
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    return(''.join(random.choice(letters) for i in range(length)))
+    
+
+
 if __name__ == '__main__':  
     unittest.main(warnings='ignore')  
